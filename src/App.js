@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import Clarifai from "clarifai";
 import Particles from "react-particles-js";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
@@ -9,10 +8,6 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
-
-const app = new Clarifai.App({
-  apiKey: "df791b8fb10540bd8a2a6dbea354d5b9"
-});
 
 const particlesOptions = {
   particles: {
@@ -95,7 +90,14 @@ class App extends Component {
   onButtonSubmit = () => {
     console.log(this.state.user)
     this.setState({imageUrl: this.state.input});  
-    app.models.predict("a403429f2ddf4b49b307e318f00e528b", this.state.input)
+    fetch("http://localhost:3000/imageUrl", {
+      method: "post",
+      headers: {"content-Type": "application/json"},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+    .then(response => response.json())
       .then(response => {
         if (response) {
           fetch("http://localhost:3000/image", {
@@ -116,6 +118,8 @@ class App extends Component {
       })
       .catch(err => console.log(err));
   };
+
+  
 
   render() {
     const { isSignedIn, imageUrl, route, box } = this.state;
