@@ -90,7 +90,7 @@ class App extends Component {
   onButtonSubmit = () => {
     console.log(this.state.user)
     this.setState({imageUrl: this.state.input});  
-    fetch("http://localhost:3000/imageUrl", {
+    fetch("https://polar-wave-90283.herokuapp.com/imageUrl", {
       method: "post",
       headers: {"content-Type": "application/json"},
       body: JSON.stringify({
@@ -100,7 +100,7 @@ class App extends Component {
     .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch("http://localhost:3000/image", {
+          fetch("https://polar-wave-90283.herokuapp.com/image", {
             method: "put",
             headers: {"content-Type": "application/json"},
             body: JSON.stringify({
@@ -119,7 +119,7 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-  
+
 
   render() {
     const { isSignedIn, imageUrl, route, box } = this.state;
